@@ -2,17 +2,22 @@ var Rooms = {
   // holds all roomnames in a set
   _storage: new Set,
 
+  // property to indicate the current room selected, default to lobby
   selected: 'lobby',
 
+  // convert the set of roomnames to an array and chain to perform multiple fcns
   items: function() {
-    // convert the set of roomnames to an array and chain to perform multiple fcns
     return _.chain([...Rooms._storage]);
   },
 
+  // takes in a room and adds it into storage and calls the cb fcn
   add: function(room, callback = ()=>{}) {
-
+    Rooms._storage.add(room);
+    Rooms.selected = room;
+    callback();
   },
 
+  // on each fetch will get the rooms and call the cb fcn
   update: function(messages, callback = ()=>{}) {
     // chain multiple fcns to the messages
     _.chain(messages)
@@ -26,9 +31,9 @@ var Rooms = {
     callback();
   },
 
-  isSelected: function() {
-
-  },
-
-
+  // checks if the room of a message matches the current room selected
+  isSelected: function(roomname) {
+    // true if room matches current room or if rooms selected is lobby
+    return roomname === Rooms.selected || !roomname && Rooms.selected === 'lobby';
+  }
 };

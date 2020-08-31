@@ -23,9 +23,9 @@ var App = {
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
       // take in data from the get request
-      // update the Message Model and render the data
+      // update the Message Model and render the messages
       Messages.update(data.results, MessagesView.render);
-      // update the Room model and render the data
+      // update the Room model and render the rooms into select
       Rooms.update(data.results, RoomsView.render);
       callback();
     });
