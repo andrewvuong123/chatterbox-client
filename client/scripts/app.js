@@ -22,20 +22,11 @@ var App = {
 
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
-      // examine the response from the server request:
-
-      // iterate through the initial batch of messages
-      for (let i = 0; i < data.results.length; i++) {
-        // push into the Message Model's storage
-        Messages.storage.push(data.results[i]);
-        // push the roomname prop of each message into room model
-        Rooms.storage.push(data.results[i].roomname);
-        //console.log(data.results[i].roomname);
-      }
-      // render the batch
-      console.log(Messages.storage);
-      MessagesView.render();
-      RoomsView.render();
+      // take in data from the get request
+      // update the Message Model and render the data
+      Messages.update(data.results, MessagesView.render);
+      // update the Room model and render the data
+      Rooms.update(data.results, RoomsView.render);
       callback();
     });
   },

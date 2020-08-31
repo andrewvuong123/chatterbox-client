@@ -10,10 +10,18 @@ var FormView = {
     // Stop the browser from submitting the form
     event.preventDefault();
     // create message
-    var message = {username: App.username, text: $("#message").val(), roomname: Rooms.selected};
-    // pass into render message
-    MessagesView.renderMessage(message);
-    //console.log('click!');
+    var message = {
+      username: App.username,
+      text: FormView.$form.find('#message').val(),
+      roomname: Rooms.selected || 'lobby'
+    };
+    // pass into parse.create the message input and success callback
+    Parse.create(message, (data) => {
+      // use .extend to extend properties from the server into the new message created (ObjectId/createdAt)
+      _.extend(message, data);
+      // add into the messages model and pass a callback to re render
+      Messages.add(message, MessagesView.render);
+    });
   },
 
   setStatus: function(active) {

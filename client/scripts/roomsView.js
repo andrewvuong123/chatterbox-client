@@ -9,32 +9,30 @@ var RoomsView = {
   },
 
   render: function() {
-    var set = new Set(Rooms.storage);
-    var arr = [...set];
-    console.log(arr);
-    for (var item of arr) {
-      if (item !== "" && item !== undefined) {
-        RoomsView.renderRoom(item);
-      }
-    }
+    // initialize the select button to be empty
+    RoomsView.$select.html('');
+    // for each item in storage, render the room
+    Rooms
+      .items()
+      .each(room => RoomsView.renderRoom(room));
   },
 
   renderRoom: function (roomName) {
-    console.log('click');
+    // add the room's html option tag to the select button
     RoomsView.$select.append(new Option(roomName, roomName));
   },
 
   handleClick: function (event) {
-    var roomname = prompt('Enter room name');
-    RoomsView.renderRoom(roomname);
-    Rooms.storage.push(roomname);
+    // var roomname = prompt('Enter room name');
+    // RoomsView.renderRoom(roomname);
+    // Rooms.storage.push(roomname);
     // RoomsView.render();
     // MessagesView.render();
   },
 
   handleChange: function (event) {
-    Rooms.selected = RoomsView.$select.val();
-    MessagesView.render();
+    // Rooms.selected = RoomsView.$select.val();
+    // MessagesView.render();
   }
 
 };
